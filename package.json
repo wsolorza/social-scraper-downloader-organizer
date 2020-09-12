@@ -1,0 +1,12 @@
+{
+  "name": "node-mrjmpl3-social-downloader-organizer",
+  "version": "0.0.1",
+  "author": "MrJmpl3",
+  "private": true,
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
