@@ -92,3 +92,7 @@ sw.*
 # Report Yarn or NPM
 report.*
 
+# Ignore dist and db
+dist/
+db/
+
