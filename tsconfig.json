@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es6", "DOM"],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "sourceMap": true,
+    "strict": true,
+    "baseUrl": ".",
+    "downlevelIteration": true,
+    "noImplicitAny": false,
+    "resolveJsonModule": true,
+    "types": ["@types/node"],
+    "paths": {
+      "@/src/*": ["./src/*"],
+      "@/utils/*": ["./utils/*"]
+    }
+  },
+  "include": [
+    "./src/**/**.ts",
+    "./utils/**/**.ts",
+    ".prettierrc.js",
+    ".eslintrc.js",
+    "*.config.js",
+    "*.config.ts"
+  ],
+  "exclude": ["node_modules"]
+}
