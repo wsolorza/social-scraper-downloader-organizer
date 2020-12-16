@@ -32,7 +32,7 @@ If you find any bug in the code or have any improvements in mind then feel free 
 - Fill .env
 - Build the project with `yarn run build`
 
-### Social supported
+## Social supported
 
 ### Facebook commands (Mobile mode, my recommendation is the best mode to scrap)
 
