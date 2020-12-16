@@ -1,34 +1,39 @@
-import { resolve } from 'path';
-import * as webpack from 'webpack';
-import nodeExternals from 'webpack-node-externals';
-import { CleanWebpackPlugin } from 'clean-webpack-plugin';
-import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
+/* eslint-disable import/no-extraneous-dependencies */
+import { resolve } from "path";
+import { CleanWebpackPlugin } from "clean-webpack-plugin";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import * as webpack from "webpack";
+import nodeExternals from "webpack-node-externals";
 
 delete process.env.TS_NODE_PROJECT;
 
 const config: webpack.Configuration = {
-  mode: 'development',
-  target: 'node',
+  mode: "production",
+  target: "node",
   entry: {
-    instagram: './src/instagram.ts',
+    facebook: "./src/facebook.ts",
+    facebookMobile: "./src/facebookMobile.ts",
+    instagram: "./src/instagram.ts",
+    tiktok: "./src/tiktok.ts",
   },
   output: {
-    filename: '[name].bundle.js',
+    filename: "[name].bundle.js",
+    path: resolve(process.cwd(), "dist"),
   },
   module: {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: "ts-loader",
         exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: [".tsx", ".ts", ".js"],
     plugins: [
       new TsconfigPathsPlugin({
-        configFile: resolve(__dirname, 'tsconfig.json'),
+        configFile: resolve(__dirname, "tsconfig.json"),
       }),
     ],
   },

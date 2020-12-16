@@ -13,9 +13,12 @@ module.exports = {
   ],
   extends: [
     "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    // "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "plugin:typescript-sort-keys/recommended",
     "prettier",
     "prettier/@typescript-eslint",
+    "prettier/prettier",
   ],
   settings: {
     "import/parsers": {
