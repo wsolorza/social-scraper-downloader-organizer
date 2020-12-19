@@ -1,8 +1,8 @@
-import {TypeVideo} from "@/utils/tiktok/interfaces/posts";
+import { resolve } from "path";
 import { getUnixTime } from "date-fns";
 import * as fs from "fs-extra";
-import { resolve } from "path";
 import sanitize from "sanitize-filename";
+import { TypeVideo } from "@/utils/tiktok/interfaces/posts";
 
 export const getPathFolder = () => {
   if (process.env.TIKTOK_FOLDER) {
@@ -40,7 +40,7 @@ export const getPathOfTrashVideo = (
   profileTrashFolder: string,
   idVideo: string,
   type: TypeVideo,
-  reasonSize: boolean = false
+  reasonSize = false
 ) =>
   resolve(
     profileTrashFolder,
