@@ -1,9 +1,10 @@
-export type TypeVideo = 'normal' | 'advance' | 'advanceplus';
+import { Headers } from "tiktok-scraper";
 
-export interface Queue {
-    folderDir: string;
-    folderTrashDir: string;
-    postId: string;
-    type: TypeVideo;
-    url: string;
+export type TypePost = "normal" | "advance" | "advanceplus";
+
+export interface Post {
+  headers: Headers;
+  id: string;
+  type: TypePost;
+  url: string;
 }

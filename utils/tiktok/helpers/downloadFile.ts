@@ -1,22 +1,18 @@
 import axios from "axios";
 import * as fs from "fs-extra";
 import { Headers } from "tiktok-scraper";
-import { TypeVideo } from "@/utils/tiktok/interfaces/posts";
-import {
-  getPathOfTrashVideo,
-  getPathOfVideo,
-} from "@/utils/tiktok/utils/paths";
+import { getPathFileVideoTrash, getPathFileVideo } from "@/utils/tiktok/helpers/paths";
+import { TypePost } from "@/utils/tiktok/interfaces/posts";
 
 const downloadFile = async (
   headers: Headers,
   url: string,
-  folderDir: string,
-  folderTrashDir: string,
+  profile: string,
   postId: string,
-  type: TypeVideo,
+  type: TypePost,
   sizeComparasion: number | null = null
 ): Promise<unknown | "zero-size" | "skip"> => {
-  const destination = getPathOfVideo(folderDir, postId, type);
+  const destination = getPathFileVideo(profile, postId, type);
 
   const { data: dataResponse, headers: headersResponse } = await axios({
     url,
@@ -35,10 +31,7 @@ const downloadFile = async (
       return new Promise((resolve2) => resolve2("skip"));
     }
 
-    fs.moveSync(
-      destination,
-      getPathOfTrashVideo(folderTrashDir, postId, type, true)
-    );
+    fs.moveSync(destination, getPathFileVideoTrash(profile, postId, type, true));
   }
 
   const writer = fs.createWriteStream(destination);
