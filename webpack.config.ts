@@ -8,13 +8,13 @@ import nodeExternals from "webpack-node-externals";
 delete process.env.TS_NODE_PROJECT;
 
 const config: webpack.Configuration = {
-  mode: "production",
+  mode: "development",
   target: "node",
   entry: {
     facebook: "./src/facebook.ts",
     facebookMobile: "./src/facebookMobile.ts",
     instagram: "./src/instagram.ts",
-    tiktok: "./src/tiktok.ts",
+    Tiktok: "./src/Tiktok.tsx",
   },
   output: {
     filename: "[name].bundle.js",

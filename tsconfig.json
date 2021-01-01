@@ -13,14 +13,19 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "types": ["@types/node"],
+    "jsx": "react",
     "paths": {
+      "@/hooks/*": ["./hooks/*"],
       "@/src/*": ["./src/*"],
       "@/utils/*": ["./utils/*"]
     }
   },
   "include": [
+    "./hooks/**/**.ts",
     "./src/**/**.ts",
+    "./src/**/**.tsx",
     "./utils/**/**.ts",
+    "./utils/**/**.tsx",
     ".prettierrc.js",
     ".eslintrc.js",
     "*.config.js",
