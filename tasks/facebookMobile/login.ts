@@ -1,14 +1,13 @@
 /* eslint-disable no-param-reassign */
 import fs from "fs-extra";
 import { ListrTask } from "listr2";
+import { getPathFolder } from "@/utils/facebookMobile/paths";
 import { isNil } from "lodash";
-import { Browser } from "puppeteer";
-import { getPathFolder } from "@/utils/facebookMobile/utils/paths";
-import log from "@/utils/facebookMobile/utils/logger";
+import { Context } from "@/utils/facebookMobile/interfaces";
 
-const loginTask = (browser: Browser): ListrTask => ({
+const login = (browser): ListrTask<Context> => ({
   title: "Login",
-  task: async (_ctx, task) => {
+  task: async (ctx, task) => {
     task.output = "Ensure path folder exists";
 
     fs.ensureDirSync(getPathFolder());
@@ -18,7 +17,7 @@ const loginTask = (browser: Browser): ListrTask => ({
     task.output = "Go to Facebook and logging";
 
     await page.goto("https://m.facebook.com/");
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(ctx.waitTime);
 
     const moreButton = await page.$("#accept-cookie-banner-label");
     if (!isNil(moreButton)) {
@@ -34,8 +33,9 @@ const loginTask = (browser: Browser): ListrTask => ({
     await loginButton.click();
 
     await page.waitForNavigation({ waitUntil: "networkidle2" });
+    await page.waitForTimeout(ctx.waitTime);
     await page.close();
   },
 });
 
-export default loginTask;
+export default login;

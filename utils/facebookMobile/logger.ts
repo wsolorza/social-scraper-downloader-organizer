@@ -1,6 +1,6 @@
 import { resolve } from "path";
 import fs from "fs-extra";
-import { getPathFolderProfile } from "@/utils/facebookMobile/utils/paths";
+import { getPathFolderProfile } from "./paths";
 
 const log = (profileName: string, text: string): void => {
   fs.ensureDirSync(getPathFolderProfile(profileName));
