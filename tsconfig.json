@@ -13,19 +13,16 @@
     "noImplicitAny": false,
     "resolveJsonModule": true,
     "types": ["@types/node"],
-    "jsx": "react",
     "paths": {
-      "@/hooks/*": ["./hooks/*"],
       "@/src/*": ["./src/*"],
+      "@/tasks/*": ["./tasks/*"],
       "@/utils/*": ["./utils/*"]
     }
   },
   "include": [
-    "./hooks/**/**.ts",
-    "./src/**/**.ts",
-    "./src/**/**.tsx",
+    "./src/**.ts",
+    "./tasks/**/**.ts",
     "./utils/**/**.ts",
-    "./utils/**/**.tsx",
     ".prettierrc.js",
     ".eslintrc.js",
     "*.config.js",
