@@ -1,32 +1,34 @@
-import executeCommand from "@/utils/instagram/utils/command";
-import getPathFolder from "@/utils/instagram/utils/paths";
+import delay from "delay";
+import executeCommand from "@/utils/instagram/command";
+import getPathFolder from "@/utils/instagram/paths";
 
-const downloadIgtvOfProfile = (
+const downloadIgtv = async (
   profile: string,
-  full = false,
-  altAccount = false
+  altAccount: boolean,
+  full: boolean
 ) => {
   const folder = getPathFolder();
 
-  const commandData: string[] = [
+  const commandParts: string[] = [
     `instaloader ${profile} --dirname-pattern="{profile}\\igtv" --no-profile-pic --no-posts --igtv --no-captions --no-video-thumbnails --request-timeout=300`,
   ];
 
   if (altAccount) {
-    commandData.push(
+    commandParts.push(
       `--login ${process.env.INSTAGRAM_USER_ALT} --password=${process.env.INSTAGRAM_PASSWORD_ALT}`
     );
   } else {
-    commandData.push(
+    commandParts.push(
       `--login ${process.env.INSTAGRAM_USER} --password=${process.env.INSTAGRAM_PASSWORD}`
     );
   }
 
   if (!full) {
-    commandData.push("--fast-update");
+    commandParts.push("--fast-update");
   }
 
-  executeCommand(folder, commandData.join(" "));
+  await executeCommand(folder, commandParts.join(" "));
+  await delay(5 * 60 * 1000);
 };
 
-export default downloadIgtvOfProfile;
+export default downloadIgtv;

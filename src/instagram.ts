@@ -1,14 +1,10 @@
 import { cac } from "cac";
 import dotenv from "dotenv";
-import downloadFeed from "@/utils/instagram/feed";
-import downloadHighlightsOfProfile from "@/utils/instagram/highlights";
-import downloadIgtvOfProfile from "@/utils/instagram/igtv";
-import downloadPostsOfProfile from "@/utils/instagram/posts";
-import {
-  downloadStories,
-  downloadStoriesOfProfile,
-} from "@/utils/instagram/stories";
-import downloadTaggedOfProfile from "@/utils/instagram/tagged";
+import { Listr } from "listr2";
+import downloadFeed from "@/tasks/instagram/others/downloadFeed";
+import downloadStories from "@/tasks/instagram/others/downloadStories";
+import downloadProfile from "@/tasks/instagram/profile/downloadProfile";
+import { Context } from "@/utils/instagram/interfaces";
 
 dotenv.config();
 
@@ -24,36 +20,46 @@ const optionNotHighlights = !!parsed.options.notHighlights;
 const optionNotTagged = !!parsed.options.notTagged;
 const optionNotIgtv = !!parsed.options.notIgtv;
 
-const startScraper = async () => {
+(async () => {
+  const context: Context = {
+    full: optionFull,
+    altAccount: optionAltAccount,
+    notHighlights: optionNotHighlights,
+    notIgtv: optionNotIgtv,
+    notStories: optionNotStories,
+    notTagged: optionNotTagged,
+  };
+
+  const tasks = new Listr<Context>([], {
+    rendererOptions: {
+      showSubtasks: true,
+    },
+    ctx: context,
+    concurrent: false,
+  });
+
   if (optionStories) {
-    downloadStories(optionFull, optionAltAccount);
+    tasks.add(downloadStories());
   } else if (optionFeed) {
-    downloadFeed(optionAltAccount);
+    tasks.add(downloadFeed());
   } else {
-    for (const profile of parsed.args) {
-      if (!optionNotStories) {
-        downloadStoriesOfProfile(profile, optionFull, optionAltAccount);
-        await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000));
-      }
+    tasks.add({
+      title: `Download profiles`,
+      task: (_ctx, task) => {
+        const taskProfiles = task.newListr([], {
+          rendererOptions: { showSubtasks: true },
+          ctx: context,
+          concurrent: false,
+        });
 
-      if (!optionNotHighlights) {
-        downloadHighlightsOfProfile(profile, optionFull, optionAltAccount);
-        await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000));
-      }
+        parsed.args.forEach((value) => {
+          taskProfiles.add(downloadProfile(value));
+        });
 
-      if (!optionNotTagged) {
-        downloadTaggedOfProfile(profile, optionFull, optionAltAccount);
-        await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000));
-      }
-
-      if (!optionNotIgtv) {
-        downloadIgtvOfProfile(profile, optionFull, optionAltAccount);
-        await new Promise((resolve) => setTimeout(resolve, 5 * 60 * 1000));
-      }
-
-      downloadPostsOfProfile(profile, optionFull, optionAltAccount);
-    }
+        return taskProfiles;
+      },
+    });
   }
-};
 
-startScraper();
+  await tasks.run();
+})();
