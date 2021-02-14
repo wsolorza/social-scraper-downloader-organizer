@@ -40,9 +40,9 @@ If you find any bug in the code or have any improvements in mind then feel free 
 
 `yarn run facebookMobile [profile1] [profile2] [--dev]`
 
-### Facebook (Desktop)
+### ~~Facebook (Desktop)~~ (Temporarily disabled)
 
-- Download a profile
+- Download a profile~~
 
 `yarn run facebook [profile1] [profile2] [--fast-scroll] [--dev]`
 
