@@ -297,12 +297,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/fs-extra@npm:^9.0.6":
-  version: 9.0.6
-  resolution: "@types/fs-extra@npm:9.0.6"
+"@types/fs-extra@npm:^9.0.7":
+  version: 9.0.7
+  resolution: "@types/fs-extra@npm:9.0.7"
   dependencies:
     "@types/node": "*"
-  checksum: 8a5df0d8e4b3590a6c9bc6db050143b1cbd742566a2aaac4ed3679bcb607756fb2d6d4ff896a304f3c4603fd996a6ba085a64310deb13839dfc7663351b5b626
+  checksum: 079cc17a244d4a11f0553c16595002e859ed7b99d75bdce589bb19b92758dd1baca438d4afdca5d0945ec8edf1e377a5b9f5ad1984532179cc64e011fe4d6f6f
   languageName: node
   linkType: hard
 
@@ -351,10 +351,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^14.14.25":
+"@types/node@npm:*":
   version: 14.14.25
   resolution: "@types/node@npm:14.14.25"
   checksum: 64c42730f4169e49ec378870622ef06c5d820b31340e224cc1b45bf06c8b0cfa28daa587b4ae2b8ea1f712ef049bae4d9c92925b157ba9ba7cde3b22ff552513
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^14.14.28":
+  version: 14.14.28
+  resolution: "@types/node@npm:14.14.28"
+  checksum: e750df4d5e93c639d04100e7d54d9e416ecc649d4d7951ac1d5b82d092c556f6e7775a191995e06d6def65ae7bc25533d188fe122dc660724d119ce3ddae2cea
   languageName: node
   linkType: hard
 
@@ -5273,9 +5280,9 @@ __metadata:
   dependencies:
     "@commitlint/cli": ^11.0.0
     "@commitlint/config-conventional": ^11.0.0
-    "@types/fs-extra": ^9.0.6
+    "@types/fs-extra": ^9.0.7
     "@types/lodash": ^4.14.168
-    "@types/node": ^14.14.25
+    "@types/node": ^14.14.28
     "@typescript-eslint/eslint-plugin": ^4.15.0
     "@typescript-eslint/parser": ^4.15.0
     axios: ^0.21.1

@@ -2,7 +2,7 @@ import { resolve } from "path";
 import { getUnixTime } from "date-fns";
 import * as fs from "fs-extra";
 import sanitize from "sanitize-filename";
-import { TypePost } from "@/utils/tiktok/interfaces/posts";
+import { TypePost } from "@/utils/tiktok/interfaces";
 
 export const getPathFolder = () => {
   let path = resolve(__dirname, "..", "db", "tiktok");
@@ -16,16 +16,16 @@ export const getPathFolder = () => {
   return path;
 };
 
-export const getPathFolderProfile = (profileName: string) => {
-  const path = resolve(getPathFolder(), sanitize(profileName));
+export const getPathFolderProfile = (profile: string) => {
+  const path = resolve(getPathFolder(), sanitize(profile));
 
   fs.ensureDirSync(path);
 
   return path;
 };
 
-export const getPathFolderProfileTrash = (profileName: string) => {
-  const path = resolve(getPathFolderProfile(profileName), "trash");
+export const getPathFolderProfileTrash = (profile: string) => {
+  const path = resolve(getPathFolderProfile(profile), "trash");
 
   fs.ensureDirSync(path);
 
@@ -43,6 +43,9 @@ export const fileVideoName = (idPost: string, type: TypePost) => {
 
   return `${idPost}`;
 };
+
+export const getPathFileImage = (profile: string, fileName: string) =>
+  resolve(getPathFolderProfile(profile), sanitize(fileName));
 
 export const getPathFileVideo = (
   profile: string,
