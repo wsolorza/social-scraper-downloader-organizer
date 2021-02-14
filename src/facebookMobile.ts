@@ -1,10 +1,10 @@
 import { cac } from "cac";
 import dotenv from "dotenv";
 import { Listr } from "listr2";
-import puppeteer from "puppeteer-extra";
-import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import loginTask from "@/utils/facebookMobile/tasks/login";
-import scraperProfilePhotosTasks from "@/utils/facebookMobile/tasks/scrapers/profile/photos";
+import puppeteer from "puppeteer";
+import login from "@/tasks/facebookMobile/login";
+import downloadPhotos from "@/tasks/facebookMobile/profile/downloadPhotos";
+import { Context } from "@/utils/facebookMobile/interfaces";
 
 dotenv.config();
 
@@ -12,25 +12,24 @@ const parsed = cac().parse();
 const optionDev = !!parsed.options.dev;
 const optionVideos = !!parsed.options.videos;
 const optionPage = !!parsed.options.page;
-
-puppeteer.use(StealthPlugin());
+const optionWaitTime = parsed.options.waitTime ?? 60 * 1000;
 
 (async () => {
+  const context: Context = {
+    waitTime: optionWaitTime,
+  };
+
   const browser = await puppeteer.launch({
     headless: !optionDev,
-    defaultViewport: {
-      width: 7680,
-      height: 4320,
-    },
   });
 
-  const tasks = new Listr([loginTask(browser)], {
+  const tasks = new Listr([login(browser)], {
     rendererOptions: {
       collapse: false,
       collapseErrors: false,
       collapseSkips: false,
-      showSubtasks: true,
     },
+    ctx: context,
   });
 
   if (optionPage) {
@@ -42,7 +41,28 @@ puppeteer.use(StealthPlugin());
   } else if (optionVideos) {
     //
   } else {
-    tasks.add(scraperProfilePhotosTasks(browser, parsed.args));
+    tasks.add({
+      title: "Download photos",
+      task: (ctx, task) => {
+        const tasksProfile = task.newListr([], {
+          rendererOptions: { showSubtasks: true },
+          ctx,
+          concurrent: false,
+          exitOnError: false,
+        });
+
+        parsed.args.forEach((value) => {
+          const profileUrlConvert = value.replace(
+            "https://www.facebook.com/",
+            "https://m.facebook.com/"
+          );
+
+          tasksProfile.add(downloadPhotos(browser, profileUrlConvert));
+        });
+
+        return tasksProfile;
+      },
+    });
   }
 
   await tasks.run();
