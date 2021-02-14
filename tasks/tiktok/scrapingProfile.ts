@@ -1,8 +1,11 @@
 /* eslint-disable no-param-reassign */
+import { resolve } from "path";
 import { URL } from "url";
 import delay from "delay";
+import fs from "fs-extra";
 import { ListrTask } from "listr2";
 import { Context } from "@/utils/tiktok/interfaces";
+import { getPathFolderProfile } from "@/utils/tiktok/paths";
 import downloadImage from "@/utils/tiktok/profile/downloadImage";
 import scrapingVideoByType from "@/utils/tiktok/profile/scrapingVideoByType";
 import { scrapeProfile } from "@/utils/tiktok/scraper";
@@ -19,6 +22,12 @@ const scrapingProfile = (profile: string): ListrTask<Context> => ({
     if (profileTiktok === null) {
       // TODO: Get id of the profile from folder already downloaded, scrape profile by id, rename the folder profile, scrape posts and image.
     } else {
+      const PATH_ID = resolve(getPathFolderProfile(profile), "ID");
+
+      if (!fs.existsSync(PATH_ID)) {
+        fs.writeFileSync(PATH_ID, profileTiktok.user.id);
+      }
+
       if (profileTiktok.user.avatarLarger !== "") {
         await downloadImage(
           profileTiktok.user.avatarLarger,
