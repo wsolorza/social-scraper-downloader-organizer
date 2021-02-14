@@ -34,25 +34,32 @@ If you find any bug in the code or have any improvements in mind then feel free 
 
 ## Social supported
 
-### Facebook commands (Mobile mode, my recommendation is the best mode to scrap)
+### Facebook (Mobile mode, my recommendation is the best mode to scrap)
 
 - Download a profile
 
 `yarn run facebookMobile [profile1] [profile2] [--dev]`
 
-### Facebook commands (Desktop)
+### ~~Facebook (Desktop)~~ (Temporarily disabled)
 
-- Download a profile
+- Download a profile~~
 
 `yarn run facebook [profile1] [profile2] [--fast-scroll] [--dev]`
 
-### Tiktok commands
+### Tiktok
 
+- Get the session:
+    - Open https://www.tiktok.com/ in any browser
+    - Login in to your account
+    - Right click -> inspector -> networking
+    - Refresh page -> select any request that was made to the tiktok -> go to the Request Header sections -> Cookies
+    - Find in cookies sid_tt value. It usually looks like that: sid_tt=521kkadkasdaskdj4j213j12j312;
+    
 - Download a profile
 
-`yarn run tiktok [profile1] [profile2]`
+`yarn run tiktok [profile1] [profile2] --session="sid_tt=[youTokenSid]"`
 
-### Instagram commands
+### Instagram
 
 - Download stories of your feed
 
