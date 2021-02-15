@@ -37,11 +37,7 @@ const scrapingVideo = async (
       sizeDownloaded
     );
 
-    if (data === "skip") {
-      task.skip();
-    } else if (data === "zero-size") {
-      throw new Error("Error by Zero Size");
-    } else if (
+    if (
       type === "advanceplus" &&
       existsFileVideo(profile, postId, "advance")
     ) {
