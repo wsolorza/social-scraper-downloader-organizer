@@ -1,4 +1,10 @@
-import {getUserProfileInfo, getVideoMeta, Result, user, UserMetadata} from "tiktok-scraper";
+import {
+  getUserProfileInfo,
+  getVideoMeta,
+  Result,
+  user,
+  UserMetadata,
+} from "tiktok-scraper";
 import { TypePost } from "@/utils/tiktok/interfaces";
 
 export const scrapeProfile = async (
@@ -46,11 +52,10 @@ export const scrapePosts = async (
   }
 };
 
-
 export const scrapeVideo = async (
-    url: string,
-    type: TypePost,
-    session: string
+  url: string,
+  type: TypePost,
+  session: string
 ) => {
   try {
     if (type === "advanceplus") {

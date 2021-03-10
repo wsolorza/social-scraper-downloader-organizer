@@ -11,7 +11,7 @@ import getVideosByType from "@/utils/tiktok/profile/getVideosByType";
 const normalScraping = async (
   profile: string,
   session: string,
-  profileTiktok: UserMetadata,
+  profileTiktok: UserMetadata
 ) => {
   const pathId = resolve(getPathFolderProfile(profile), "ID");
   if (!fs.existsSync(pathId)) {
@@ -22,19 +22,19 @@ const normalScraping = async (
   if (profileTiktok.user.avatarLarger !== "") {
     try {
       await downloadImage(
-          profile,
-          profileTiktok.user.avatarLarger,
-          new URL(profileTiktok.user.avatarLarger).pathname
-              .split("/")
-              .pop() as string
+        profile,
+        profileTiktok.user.avatarLarger,
+        new URL(profileTiktok.user.avatarLarger).pathname
+          .split("/")
+          .pop() as string
       );
 
       console.log(
-          chalk.green(`[${profile}] Download image of profile correct!`)
+        chalk.green(`[${profile}] Download image of profile correct!`)
       );
     } catch {
       console.log(
-          chalk.red(`[${profile}] Error when download image of profile!`)
+        chalk.red(`[${profile}] Error when download image of profile!`)
       );
     }
   }
@@ -44,21 +44,17 @@ const normalScraping = async (
   await getVideosByType(profile, session, "normal");
 };
 
-const scrapingProfile = async (
-  profile: string,
-  session: string,
-) => {
+const scrapingProfile = async (profile: string, session: string) => {
   console.log(chalk.gray(`[${profile}] Scraping image of profile`));
 
   const profileTiktok = await scrapeProfile(profile, session);
   if (profileTiktok === null) {
+    console.log(
+      chalk.red(`[${profile}] Sorry, but this function is in progress!`)
+    );
     // TODO: Get id of the profile from folder already downloaded, scrape profile by id, rename the folder profile, scrape posts and image.
   } else {
-    await normalScraping(
-      profile,
-      session,
-      profileTiktok,
-    );
+    await normalScraping(profile, session, profileTiktok);
   }
 };
 
