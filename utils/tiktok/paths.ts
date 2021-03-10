@@ -4,7 +4,7 @@ import * as fs from "fs-extra";
 import sanitize from "sanitize-filename";
 import { TypePost } from "@/utils/tiktok/interfaces";
 
-export const getPathFolder = () => {
+export const pathFolder = () => {
   let path = resolve(__dirname, "..", "db", "tiktok");
 
   if (process.env.TIKTOK_FOLDER) {
@@ -17,7 +17,7 @@ export const getPathFolder = () => {
 };
 
 export const getPathFolderProfile = (profile: string) => {
-  const path = resolve(getPathFolder(), sanitize(profile));
+  const path = resolve(pathFolder(), sanitize(profile));
 
   fs.ensureDirSync(path);
 
@@ -32,6 +32,9 @@ export const getPathFolderProfileTrash = (profile: string) => {
   return path;
 };
 
+export const getPathFileImage = (profile: string, fileName: string) =>
+  resolve(getPathFolderProfile(profile), sanitize(fileName));
+
 export const fileVideoName = (idPost: string, type: TypePost) => {
   if (type === "advanceplus") {
     return `${idPost}_advanceplus`;
@@ -43,9 +46,6 @@ export const fileVideoName = (idPost: string, type: TypePost) => {
 
   return `${idPost}`;
 };
-
-export const getPathFileImage = (profile: string, fileName: string) =>
-  resolve(getPathFolderProfile(profile), sanitize(fileName));
 
 export const getPathFileVideo = (
   profile: string,

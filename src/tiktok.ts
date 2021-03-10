@@ -1,42 +1,24 @@
 import { cac } from "cac";
 import dotenv from "dotenv";
-import { Listr } from "listr2";
-import scrapingProfile from "@/tasks/tiktok/scrapingProfile";
-import { Context } from "@/utils/tiktok/interfaces";
+import scrapingProfile from "@/utils/tiktok/profile/scrapingProfile";
+import scrapingVideo from "@/utils/tiktok/video/scrapingVideo";
 
 dotenv.config();
 
 const parsed = cac().parse();
 const optionSession = parsed.options.session;
+const optionVideo = parsed.options.video;
 
 (async () => {
-  const context: Context = {
-    session: optionSession,
-  };
+  for (const value of parsed.args) {
+    console.log("======================================================================================");
+    console.log(value);
+    console.log("======================================================================================");
 
-  const tasks = new Listr([], {
-    ctx: context,
-  });
-
-  tasks.add({
-    title: "Scraping profiles",
-    task: (ctx) => {
-      const tasksProfile = new Listr([], {
-        ctx,
-        concurrent: false,
-        exitOnError: false,
-        rendererOptions: {
-          showSubtasks: true,
-        },
-      });
-
-      parsed.args.forEach((value) => {
-        tasksProfile.add(scrapingProfile(value));
-      });
-
-      return tasksProfile;
-    },
-  });
-
-  await tasks.run();
+    if (optionVideo) {
+      await scrapingVideo(value, optionSession);
+    } else {
+      await scrapingProfile(value, optionSession);
+    }
+  }
 })();
